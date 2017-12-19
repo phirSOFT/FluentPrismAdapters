@@ -1,14 +1,60 @@
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace phirSOFT.FluentRegionAdapters
 {
-    public abstract class ComposedPositionContraint<T> : PositionConstraint<T>, ICollection<PositionConstraint<T>>
+    public class ComposedPositionContraint : PositionConstraint, IList<PositionConstraint>, IList
     {
-        private ICollection<PositionConstraint<T>> _collectionImplementation;
+        private readonly Collection<PositionConstraint> _collectionImplementation =
+            new Collection<PositionConstraint>();
 
-        public IEnumerator<PositionConstraint<T>> GetEnumerator()
+        public int Add(object value)
+        {
+            return ((IList) _collectionImplementation).Add(value);
+        }
+
+        public bool Contains(object value)
+        {
+            return ((IList) _collectionImplementation).Contains(value);
+        }
+
+        public int IndexOf(object value)
+        {
+            return ((IList) _collectionImplementation).IndexOf(value);
+        }
+
+        public void Insert(int index, object value)
+        {
+            ((IList) _collectionImplementation).Insert(index, value);
+        }
+
+        public void Remove(object value)
+        {
+            ((IList) _collectionImplementation).Remove(value);
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            ((ICollection) _collectionImplementation).CopyTo(array, index);
+        }
+
+        public object SyncRoot => ((ICollection) _collectionImplementation).SyncRoot;
+
+        public bool IsSynchronized => ((ICollection) _collectionImplementation).IsSynchronized;
+
+        public bool IsFixedSize => ((IList) _collectionImplementation).IsFixedSize;
+
+        object IList.this[int index]
+        {
+            get => ((IList) _collectionImplementation)[index];
+            set => ((IList) _collectionImplementation)[index] = value;
+        }
+
+        public IEnumerator<PositionConstraint> GetEnumerator()
         {
             return _collectionImplementation.GetEnumerator();
         }
@@ -18,7 +64,7 @@ namespace phirSOFT.FluentRegionAdapters
             return ((IEnumerable) _collectionImplementation).GetEnumerator();
         }
 
-        public void Add(PositionConstraint<T> item)
+        public void Add(PositionConstraint item)
         {
             _collectionImplementation.Add(item);
         }
@@ -28,40 +74,55 @@ namespace phirSOFT.FluentRegionAdapters
             _collectionImplementation.Clear();
         }
 
-        public bool Contains(PositionConstraint<T> item)
+        public bool Contains(PositionConstraint item)
         {
             return _collectionImplementation.Contains(item);
         }
 
-        public void CopyTo(PositionConstraint<T>[] array, int arrayIndex)
+        public void CopyTo(PositionConstraint[] array, int arrayIndex)
         {
             _collectionImplementation.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(PositionConstraint<T> item)
+        public bool Remove(PositionConstraint item)
         {
             return _collectionImplementation.Remove(item);
         }
 
-        public int Count
+        public int Count => _collectionImplementation.Count;
+
+        public bool IsReadOnly => false;
+
+        public int IndexOf(PositionConstraint item)
         {
-            get { return _collectionImplementation.Count; }
+            return _collectionImplementation.IndexOf(item);
         }
 
-        public bool IsReadOnly
+        public void Insert(int index, PositionConstraint item)
         {
-            get { return _collectionImplementation.IsReadOnly; }
+            _collectionImplementation.Insert(index, item);
         }
 
-        protected override bool CanCompare(T left, T right)
+        public void RemoveAt(int index)
         {
-            return this.Any(c => CanCompare(c, left, right));
+            _collectionImplementation.RemoveAt(index);
         }
 
-        public override int Compare(T x, T y)
+        public PositionConstraint this[int index]
         {
-            return this.First(c => CanCompare(c, x, y)).Compare(x, y);
+            get => _collectionImplementation[index];
+            set => _collectionImplementation[index] = value;
         }
 
+        public override bool CanCompare(DependencyObject left, DependencyObject right)
+        {
+            return this.Any(c => c.CanCompare(left, right));
+        }
+
+        public override int Compare(DependencyObject x, DependencyObject y)
+        {
+            var result = 0;
+            return _collectionImplementation.Any(comparer => comparer.CanCompare(x, y) && (result = comparer.Compare(x, y)) != 0) ? result : 0;
+        }
     }
 }

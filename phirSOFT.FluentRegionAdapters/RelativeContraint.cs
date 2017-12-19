@@ -1,18 +1,20 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 
 namespace phirSOFT.FluentRegionAdapters
 {
-    public class RelativeContraint<T> : PositionConstraint<T> where T : DependencyObject
+    public class RelativeContraint : PositionConstraint
     {
-        public readonly DependencyProperty Before =
-            DependencyProperty.RegisterAttached("Before", typeof(IList<T>), typeof(T));
+        public static readonly DependencyProperty Before =
+            DependencyProperty.RegisterAttached("Before", typeof(IList<DependencyObject>), typeof(DependencyObject),
+                new PropertyMetadata(null));
 
-        public readonly DependencyProperty After =
-            DependencyProperty.RegisterAttached("Before", typeof(IList<T>), typeof(T));
+        public static readonly DependencyProperty After =
+            DependencyProperty.RegisterAttached("After", typeof(IList<DependencyObject>), typeof(DependencyObject),
+                new PropertyMetadata(null));
 
-        protected override bool CanCompare(T left, T right)
+        public override bool CanCompare(DependencyObject left, DependencyObject right)
         {
             try
             {
@@ -21,18 +23,38 @@ namespace phirSOFT.FluentRegionAdapters
             catch (Exception)
             {
                 return false;
-                
             }
-           
         }
 
-        public override int Compare(T x, T y)
+        public static IList<DependencyObject> GetBefore(DependencyObject dependencyObject)
         {
-            var xBefore = (IList<T>) x?.GetValue(Before);
-            var xAfter = (IList<T>)x?.GetValue(After);
-            var yBefore = (IList<T>) y?.GetValue(Before);
-            var yAfter = (IList<T>)y?.GetValue(After);
-            
+            var list = (IList<DependencyObject>) dependencyObject.GetValue(Before);
+            if (list != null) return list;
+
+            list = new List<DependencyObject>();
+            dependencyObject.SetValue(Before, list);
+            return list;
+        }
+
+
+        public static IList<DependencyObject> GetAfter(DependencyObject dependencyObject)
+        {
+            var list = (IList<DependencyObject>) dependencyObject.GetValue(After);
+            if (list != null) return list;
+
+            list = new List<DependencyObject>();
+            dependencyObject.SetValue(After, list);
+            return list;
+        }
+
+
+        public override int Compare(DependencyObject x, DependencyObject y)
+        {
+            var xBefore = (IList<DependencyObject>) x?.GetValue(Before);
+            var xAfter = (IList<DependencyObject>) x?.GetValue(After);
+            var yBefore = (IList<DependencyObject>) y?.GetValue(Before);
+            var yAfter = (IList<DependencyObject>) y?.GetValue(After);
+
             // x > y
             var xGy = xAfter?.Contains(y) ?? false;
 
@@ -56,7 +78,6 @@ namespace phirSOFT.FluentRegionAdapters
             if (xLy)
                 return -1;
             return 0;
-
         }
     }
 }

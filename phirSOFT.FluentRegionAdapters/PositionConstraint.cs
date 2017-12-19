@@ -1,14 +1,22 @@
-using System.Collections.Generic;
+﻿using System.Windows;
+using phirSOFT.TopologicalComparison;
 
 namespace phirSOFT.FluentRegionAdapters
 {
-    public abstract class PositionConstraint<T> : Comparer<T>
+    public abstract class PositionConstraint : ITopologicalComparer<DependencyObject>, ITopologicalComparer
     {
-        protected abstract bool CanCompare(T left, T right);
-
-        protected static bool CanCompare(PositionConstraint<T> comparer, T left, T rigt)
+        public int Compare(object x, object y)
         {
-            return comparer.CanCompare(left, rigt);
+            return Compare(x as DependencyObject, y as DependencyObject);
         }
+
+        public bool CanCompare(object x, object y)
+        {
+            return x is DependencyObject xx && y is DependencyObject yy && CanCompare(xx, yy);
+        }
+
+        public abstract bool CanCompare(DependencyObject x, DependencyObject y);
+
+        public abstract int Compare(DependencyObject x, DependencyObject y);
     }
 }
