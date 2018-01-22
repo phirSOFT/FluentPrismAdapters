@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using phirSOFT.TopologicalComparison;
@@ -9,26 +12,55 @@ namespace phirSOFT.FluentPrismAdapters
     public class RelativePositionContraint : ITopologicalComparer
     {
         private static readonly SortedDictionary<Guid, SortedSet<Guid>> RelativeContraints = new SortedDictionary<Guid, SortedSet<Guid>>();
+        private static readonly ConditionalWeakTable<object, object> Guids = new ConditionalWeakTable<object, object>();
 
-        public static IAddChild GetElementsBefore(Control control)
+        public static Guid GetGuid(object target)
         {
-            return new BeforeWrapper(control);
+            return Guids.TryGetValue(target, out var guid) ? (Guid) guid : Guid.Empty;
         }
 
-        public static IAddChild GetElementsAfter(Control control)
+        public static void SetGuid(object target, Guid value)
         {
-            var guid = ControlMarker.GetMarker(control);
+            Guids.Remove(target);
+            Guids.Add(target, value);
+        }
 
-            if (!RelativeContraints.ContainsKey(guid))
-                RelativeContraints.Add(guid, new SortedSet<Guid>());
+        private Guid ResolveGuid(object x)
+        {
+            if (Guids.TryGetValue(x, out var guid))
+                return (Guid) guid;
 
-            return new AfterWrapper(RelativeContraints[guid]);
+            var type = x.GetType();
+            var att = type.GetCustomAttribute<GuidAttribute>();
+            if (att == null)
+            {
+                return Guid.Empty;
+            }
+
+            guid = new Guid(type.GetCustomAttribute<GuidAttribute>().Value);
+
+            foreach (var beforeAttribute in type.GetCustomAttributes<BeforeAttribute>())
+            {
+                if(!RelativeContraints.ContainsKey(beforeAttribute.Guid))
+                    RelativeContraints.Add(beforeAttribute.Guid, new SortedSet<Guid>());
+                RelativeContraints[beforeAttribute.Guid].Add((Guid) guid);
+            }
+
+            if (!RelativeContraints.ContainsKey((Guid) guid)) 
+                RelativeContraints.Add((Guid)guid, new SortedSet<Guid>());
+
+            foreach (var afterAttribute in type.GetCustomAttributes<AfterAttribute>())
+            {
+                RelativeContraints[(Guid) guid].Add(afterAttribute.Guid);
+            }
+
+            return (Guid)guid;
         }
 
         public int Compare(object x, object y)
         {
-            var xGuid = ControlMarker.GetMarker(x as Control);
-            var yGuid = ControlMarker.GetMarker(y as Control);
+            var xGuid = ResolveGuid(x);
+            var yGuid = ResolveGuid(y);
 
             if (xGuid == yGuid)
                 return 0;
@@ -40,8 +72,8 @@ namespace phirSOFT.FluentPrismAdapters
 
         public bool CanCompare(object x, object y)
         {
-            var xGuid = ControlMarker.GetMarker(x as Control);
-            var yGuid = ControlMarker.GetMarker(y as Control);
+            var xGuid = ResolveGuid(x);
+            var yGuid = ResolveGuid(y);
 
             if (xGuid == Guid.Empty || yGuid == Guid.Empty)
                 return false;
@@ -52,57 +84,6 @@ namespace phirSOFT.FluentPrismAdapters
 
             return (RelativeContraints.TryGetValue(xGuid, out var greaterX) && greaterX.Contains(yGuid))
                    || (RelativeContraints.TryGetValue(yGuid, out var greaterY) && greaterY.Contains(xGuid));
-        }
-
-        private class BeforeWrapper : IAddChild
-        {
-            private readonly Guid _control;
-
-            public BeforeWrapper(Control control)
-            {
-                _control = ControlMarker.GetMarker(control);
-            }
-
-            public void AddChild(object value)
-            {
-                var guid = ControlMarker.GetMarker(value as Control);
-                if (guid != Guid.Empty)
-                {
-                    if (!RelativeContraints.ContainsKey(guid))
-                        RelativeContraints.Add(guid, new SortedSet<Guid>());
-                    RelativeContraints[guid].Add(_control);
-                }
-            }
-
-            public void AddText(string text)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private class AfterWrapper : IAddChild
-        {
-            private readonly ISet<Guid> _set;
-
-
-            public AfterWrapper(ISet<Guid> set)
-            {
-                _set = set;
-            }
-
-            public void AddChild(object value)
-            {
-                var guid = ControlMarker.GetMarker(value as Control);
-                if (guid != Guid.Empty)
-                {
-                    _set.Add(guid);
-                }
-            }
-
-            public void AddText(string text)
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 
