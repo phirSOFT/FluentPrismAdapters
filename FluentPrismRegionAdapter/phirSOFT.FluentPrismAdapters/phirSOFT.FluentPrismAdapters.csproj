@@ -45,6 +45,8 @@
     <Reference Include="phirSOFT.TopologicalComparison, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\phirSOFT.TopologicalComparison.0.0.15\lib\netstandard1.0\phirSOFT.TopologicalComparison.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Prism, Version=7.0.0.336, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.0.0.336-pre\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -124,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RibbonRegionAdapter.cs" />
     <Compile Include="TopologicalSortedRegionAdapterBase.cs" />
   </ItemGroup>
   <ItemGroup>
