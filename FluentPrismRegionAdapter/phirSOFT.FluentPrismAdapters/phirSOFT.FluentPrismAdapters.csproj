@@ -128,6 +128,7 @@
     <Compile Include="BackstageTabControlRegionAdapter.cs" />
     <Compile Include="ControlMarker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RelativePositionContraint.cs" />
     <Compile Include="RibbonMenuRegionAdapter.cs" />
     <Compile Include="RibbonTabItemRegionAdapter.cs" />
     <Compile Include="RibbonRegionAdapter.cs" />
