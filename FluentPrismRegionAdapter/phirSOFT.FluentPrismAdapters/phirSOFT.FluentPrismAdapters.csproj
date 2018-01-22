@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RibbonTabItemRegionAdapter.cs" />
     <Compile Include="RibbonRegionAdapter.cs" />
     <Compile Include="TopologicalSortedRegionAdapterBase.cs" />
   </ItemGroup>
