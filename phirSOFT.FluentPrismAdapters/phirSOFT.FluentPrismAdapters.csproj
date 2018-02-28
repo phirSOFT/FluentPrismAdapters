@@ -138,7 +138,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="phirSOFT.FluentPrismRegionAdapters.nuspec" />
+    <None Include="phirSOFT.FluentPrismAdapters.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
