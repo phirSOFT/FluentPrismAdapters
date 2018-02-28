@@ -114,6 +114,7 @@
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.7.0.0.336-pre\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -126,6 +127,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AfterAttribute.cs" />
+    <Compile Include="ApplicationMenuRegionAdapter.cs" />
     <Compile Include="BackstageTabControlRegionAdapter.cs" />
     <Compile Include="BeforeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,7 +140,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="phirSOFT.FluentPrismRegionAdapters.nuspec" />
+    <None Include="phirSOFT.FluentPrismAdapters.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
