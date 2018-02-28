@@ -46,9 +46,9 @@ namespace phirSOFT.FluentPrismAdapters
                         var list = GetItemCollection(regionTarget, item);
                         var comparer = GetComparer(regionTarget);
                         if (comparer != null)
-                            list.Insert(item, comparer);
+                            list?.Insert(item, comparer);
                         else
-                            list.Add(item);
+                            list?.Add(item);
                     }
 
                     break;
@@ -56,7 +56,7 @@ namespace phirSOFT.FluentPrismAdapters
                     foreach (DependencyObject item in args.NewItems)
                     {
                         var list = GetItemCollection(regionTarget, item);
-                        list.Remove(item);
+                        list?.Remove(item);
                     }
 
                     break;
