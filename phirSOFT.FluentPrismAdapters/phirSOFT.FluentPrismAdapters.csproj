@@ -130,6 +130,7 @@
     <Compile Include="ApplicationMenuRegionAdapter.cs" />
     <Compile Include="BackstageTabControlRegionAdapter.cs" />
     <Compile Include="BeforeAttribute.cs" />
+    <Compile Include="IUiElementMerger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelativePositionContraint.cs" />
     <Compile Include="RibbonMenuRegionAdapter.cs" />

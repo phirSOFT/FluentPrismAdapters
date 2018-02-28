@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
 using Fluent;
+using phirSOFT.TopologicalComparison;
 using Prism.Regions;
 
 namespace phirSOFT.FluentPrismAdapters
@@ -27,10 +29,20 @@ namespace phirSOFT.FluentPrismAdapters
                     return container.QuickAccessItems;
                 case RibbonContextualTabGroup _:
                     return container.ContextualGroups;
+                case Ribbon ribbon:
+                    DeepMerge(container, ribbon);
+                    break;
+                case BackstageTabItem _:
+                    return ((container.Menu as Backstage)?.Content as BackstageTabControl)?.Items;
                 case UIElement _:
                     return container.ToolBarItems;
             }
             return null;
+        }
+
+        private static void DeepMerge(Ribbon target, Ribbon source)
+        {
+            
         }
     }
 }
