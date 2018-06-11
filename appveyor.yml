@@ -32,5 +32,5 @@ before_build:
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo
 
 after_build:
-  - cmd: nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-  - cmd: appveyor PushArtifact "<NuSpec>.%GitVersion_NuGetVersion%.nupkg"
+  - ps: nuget pack "phirSOFT.FluentPrismAdapters\phirSOFT.FluentPrismAdapters.csproj" -version "$env:GitVersion_NuGetVersionV2" -prop "target=$CONFIGURATION"
+  - ps: appveyor PushArtifact "phirSOFT.FluentPrismAdapters.$env:GitVersion_NuGetVersion.nupkg"
