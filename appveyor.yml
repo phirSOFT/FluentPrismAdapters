@@ -24,16 +24,17 @@ deploy:
   on:
     branch: master
 install:
-  - choco install gitversion.portable -pre -y
+  - cinst gitversion.portable
+  - nuget restore
+  - ps: gitversion /l console /output buildserver
 
 assembly_info:
-  patch: false
+   patch: true
+   file: '**\AssemblyInfo.*'
+   assembly_version: $(GitVersion_AssemblySemVer)
+   assembly_file_version: $(GitVersion_AssemblySemVer)
+   assembly_informational_version: $(GitVersion_FullSemVer)
 
-before_build:
-  - nuget restore
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
-
-#after_build:
-#  - cmd: ECHO nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-#  - cmd: nuget pack <Project>\<NuSpec>.nuspec -version "%GitVersion_NuGetVersion%" -prop "target=%CONFIGURATION%"
-#  - cmd: appveyor PushArtifact "<NuSpec>.%GitVersion_NuGetVersion%.nupkg"
+on_failure:
+  - ps: 7z a "WorkingTree.zip"
+  - ps: Push-AppveyorArtifact WorkingTree.zip
