@@ -24,7 +24,9 @@ deploy:
   on:
     branch: master
 install:
-  - choco install gitversion.portable -pre -y
+  - cinst gitversion.portable
+  - nuget restore
+  - ps: gitversion /l console /output buildserver
 
 assembly_info:
    patch: true
@@ -32,11 +34,6 @@ assembly_info:
    assembly_version: $(GitVersion_AssemblySemVer)
    assembly_file_version: $(GitVersion_AssemblySemVer)
    assembly_informational_version: $(GitVersion_FullSemVer)
-
-
-before_build:
-  - nuget restore
-  - ps: gitversion /l console /output buildserver
 
 on_failure:
   - ps: 7z a "WorkingTree.zip"
