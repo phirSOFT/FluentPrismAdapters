@@ -8,6 +8,8 @@ skip_commits:
     - '**/*.md'
     - appveyor.yml
 build:
+  publish_nuget: true
+  publish_nuget_symbols: true
   parallel: true
   verbosity: minimal
 deploy:
@@ -25,12 +27,17 @@ install:
   - choco install gitversion.portable -pre -y
 
 assembly_info:
-  patch: false
+   patch: true
+   file: '**\AssemblyInfo.*'
+   assembly_version: $(GitVersion_AssemblySemVer)
+   assembly_file_version: $(GitVersion_AssemblySemVer)
+   assembly_informational_version: $(GitVersion_FullSemVer)
+
 
 before_build:
   - nuget restore
-  - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+  - ps: gitversion /l console /output buildserver
 
-after_build:
-  - ps: nuget pack "phirSOFT.FluentPrismAdapters\phirSOFT.FluentPrismAdapters.csproj" -version "$env:GitVersion_NuGetVersionV2" -prop "target=$CONFIGURATION"
-  - ps: appveyor PushArtifact "phirSOFT.FluentPrismAdapters.$env:GitVersion_NuGetVersion.nupkg"
+on_failure:
+  - ps: 7z a "WorkingTree.zip"
+  - ps: Push-AppveyorArtifact WorkingTree.zip
