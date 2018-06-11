@@ -8,7 +8,7 @@ namespace phirSOFT.FluentPrismAdapters
 {
     public class RibbonRegionAdapter : TopologicalSortedRegionAdapterBase<Ribbon>
     {
-        protected RibbonRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory) : base(regionBehaviorFactory)
+        public RibbonRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory) : base(regionBehaviorFactory)
         {
         }
 
