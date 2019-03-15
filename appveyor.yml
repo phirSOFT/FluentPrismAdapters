@@ -1,4 +1,4 @@
-skip_non_tags: true
+skip_tags: true
 image: Visual Studio 2017
 configuration: Release
 skip_commits:
@@ -7,8 +7,6 @@ skip_commits:
     - '**/*.html'
     - '**/*.md'
     - appveyor.yml
-before_build:
-- cmd: nuget restore
 build:
   publish_nuget: true
   publish_nuget_symbols: true

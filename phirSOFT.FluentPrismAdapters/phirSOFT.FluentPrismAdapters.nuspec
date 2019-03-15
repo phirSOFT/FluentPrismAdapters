@@ -3,9 +3,9 @@
   <metadata>
     <id>phirSOFT.FluentPrismAdapters</id>
     <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <title>phirSOFT.FluentPrismAdapters</title>
+    <authors>phirSOFT</authors>
+    <owners>phirSOFT</owners>
     <projectUrl>https://github.com/phirSOFT/FluentPrismAdapters</projectUrl>
     <licenseUrl>https://github.com/phirSOFT/FluentPrismAdapters/blob/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
