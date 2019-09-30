@@ -13,7 +13,7 @@
     <PackageIconUrl>https://avatars0.githubusercontent.com/u/29253317?s=400&amp;u=9d7725ee419b543b3059f2d2f5d7441ee0c04ed3&amp;v=4</PackageIconUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Fluent.Ribbon" Version="6.1.0.326" />
+    <PackageReference Include="Fluent.Ribbon" Version="7.0.0" />
     <PackageReference Include="GitVersionTask" Version="5.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
