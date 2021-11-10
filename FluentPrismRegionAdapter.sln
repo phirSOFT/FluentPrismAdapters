@@ -1,9 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2020
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30709.64
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "phirSOFT.FluentPrismAdapters", "phirSOFT.FluentPrismAdapters\phirSOFT.FluentPrismAdapters.csproj", "{45C535F1-D929-422F-8613-D1A45F531273}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "phirSOFT.FluentPrismAdapters", "phirSOFT.FluentPrismAdapters\phirSOFT.FluentPrismAdapters.csproj", "{45C535F1-D929-422F-8613-D1A45F531273}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ci-Pipeline", "Ci-Pipeline", "{7A1AE716-FBD9-4B8A-8B7A-FAF11311B827}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipeline.yml = azure-pipeline.yml
+		GitVersion.yml = GitVersion.yml
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "phirSOFT.FluentPrismAdapters.Annotations", "phirSOFT.FluentPrismAdapters.Annotations\phirSOFT.FluentPrismAdapters.Annotations.csproj", "{53097888-6B7F-4CA0-BB54-57C2AFE4428D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +24,10 @@ Global
 		{45C535F1-D929-422F-8613-D1A45F531273}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45C535F1-D929-422F-8613-D1A45F531273}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45C535F1-D929-422F-8613-D1A45F531273}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53097888-6B7F-4CA0-BB54-57C2AFE4428D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53097888-6B7F-4CA0-BB54-57C2AFE4428D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53097888-6B7F-4CA0-BB54-57C2AFE4428D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53097888-6B7F-4CA0-BB54-57C2AFE4428D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
