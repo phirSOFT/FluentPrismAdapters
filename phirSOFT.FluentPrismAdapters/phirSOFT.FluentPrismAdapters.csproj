@@ -25,7 +25,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="phirSOFT.TopologicalComparison" Version="0.2.4" />
-    <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\phirSOFT.FluentPrismAdapters.Annotations\phirSOFT.FluentPrismAdapters.Annotations.csproj" />
